@@ -12,3 +12,12 @@ Open Request
 - [ ] Web HTTP Request Editor
 - [ ] Request Proxy Service
 - [ ] ...
+
+## Development
+
+- Vue3
+- TypeScript
+- Vite
+- Element-Plus
+- jest
+- playwright
