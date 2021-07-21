@@ -13,6 +13,7 @@
     "codemirror": "^5.62.0",
     "element-plus": "^1.0.2-beta.41",
     "json-beautify": "^1.1.1",
+    "jssoup": "^0.0.12",
     "monaco-editor": "^0.25.2",
     "vue": "^3.0.5",
     "vue-router": "^4.0.9",

@@ -16,7 +16,9 @@ export default defineComponent({
   },
   setup() {
     const editorMode = ref('javascript');
+    const editorLanguage = ref('json');
     const CodeData = ref('')
+    const RequestData = ref('')
     const JSONPath = ref('')
 
     const DataForm = ref({
@@ -43,9 +45,12 @@ export default defineComponent({
       Bodys.value.splice(index, 1);
     }
 
+    const RequestDataChangeHandler = (data: string) => {
+      CodeData.value = data;
+    }
 
     const dataChangeHandler = (data: string) => {
-      CodeData.value = data;
+      RequestData.value = data;
     }
 
     const GetResponse = async (url: string): Promise<HttpResultResponse<any>> => Get(url)
@@ -60,7 +65,14 @@ export default defineComponent({
       Headers,
       Bodys,
 
-      editorMode, JSONPath, CodeData, doHttpRequest, dataChangeHandler,
+      RequestData,
+      RequestDataChangeHandler,
+      editorMode,
+      editorLanguage,
+      JSONPath,
+      CodeData,
+      doHttpRequest,
+      dataChangeHandler,
 
       newHeaderBtnClick,
       removeHeaderItem,

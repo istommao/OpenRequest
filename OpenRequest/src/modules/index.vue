@@ -1,95 +1,173 @@
 <template>
-  <div class="mainBox">
-    <div class="leftBox">
+  <div class="Box">
+    <div class="topBox">
       <el-form>
-        <el-form-item label="Method" label-width="76px">
+        <el-form-item label="" label-width="16px">
           <el-radio-group v-model="DataForm.method" size="small">
             <el-radio-button label="GET"></el-radio-button>
             <el-radio-button label="POST"></el-radio-button>
             <el-radio-button label="PUT"></el-radio-button>
           </el-radio-group>
-        </el-form-item>
-        <el-form-item label="URL" label-width="76px">
+          &nbsp;&nbsp;
           <el-input
             size="small"
             v-model="DataForm.url"
             placeholder=""
-            style="width: 363px"
+            style="width: 350px"
           ></el-input>
-        </el-form-item>
-
-        <el-form-item label="Headers" label-width="76px">
+          &nbsp;
           <el-button
             size="small"
             type="primary"
             plain
-            icon="el-icon-plus"
+            icon="el-icon-s-promotion"
             @click="newHeaderBtnClick"
-            >new</el-button
+            >Send</el-button
           >
-        </el-form-item>
-        <el-form-item label=" " label-width="76px" v-for="(item, index) in Headers" :key="index">
-          <el-input
-            size="small"
-            placeholder="key"
-            style="width: 150px"
-            v-model="item.key"
-          ></el-input
-          >&nbsp;&nbsp;
-          <el-input
-            size="small"
-            placeholder="value"
-            style="width: 200px"
-            v-model="item.value"
-          ></el-input
-          >&nbsp;&nbsp;
-          <el-button
-            v-if="Headers.length > 1"
-            size="small"
-            type="primary"
-            plain
-            icon="el-icon-delete"
-            @click="removeHeaderItem(index)"
-          ></el-button>
-        </el-form-item>
-        <!-- body -->
-        <el-form-item label="Body" label-width="76px">
-          <el-button size="small" type="primary" plain icon="el-icon-plus" @click="newBodyBtnClick"
-            >new</el-button
-          >
-        </el-form-item>
-        <el-form-item label=" " label-width="76px" v-for="(item, index) in Bodys" :key="index">
-          <el-input
-            size="small"
-            placeholder="key"
-            style="width: 150px"
-            v-model="item.key"
-          ></el-input
-          >&nbsp;&nbsp;
-          <el-input
-            size="small"
-            placeholder="value"
-            style="width: 200px"
-            v-model="item.value"
-          ></el-input
-          >&nbsp;&nbsp;
-          <el-button
-            v-if="Bodys.length > 1"
-            size="small"
-            type="primary"
-            plain
-            icon="el-icon-delete"
-            @click="removeBodyItem(index)"
-          ></el-button>
         </el-form-item>
       </el-form>
     </div>
-    <div class="rightBox">
-      <CodeMirrorEditor
-        :language="editorMode"
-        :data="CodeData"
-        @DataChange="dataChangeHandler"
-      ></CodeMirrorEditor>
+    <div class="mainBox">
+      <div class="leftBox">
+        <el-form>
+          <el-form-item label="Headers" label-width="76px">
+            <el-button
+              size="small"
+              type="primary"
+              plain
+              icon="el-icon-plus"
+              @click="newHeaderBtnClick"
+              >new</el-button
+            >
+          </el-form-item>
+          <el-form-item label=" " label-width="76px" v-for="(item, index) in Headers" :key="index">
+            <el-input
+              size="small"
+              placeholder="key"
+              style="width: 150px"
+              v-model="item.key"
+            ></el-input
+            >&nbsp;&nbsp;
+            <el-input
+              size="small"
+              placeholder="value"
+              style="width: 200px"
+              v-model="item.value"
+            ></el-input
+            >&nbsp;&nbsp;
+            <el-button
+              v-if="Headers.length > 1"
+              size="small"
+              type="primary"
+              plain
+              icon="el-icon-delete"
+              @click="removeHeaderItem(index)"
+            ></el-button>
+          </el-form-item>
+          <!-- body -->
+          <el-form-item label="Body" label-width="76px">
+            <el-button
+              size="small"
+              type="primary"
+              plain
+              icon="el-icon-plus"
+              @click="newBodyBtnClick"
+              >new</el-button
+            >
+          </el-form-item>
+          <el-form-item label=" " label-width="76px" v-for="(item, index) in Bodys" :key="index">
+            <el-input
+              size="small"
+              placeholder="key"
+              style="width: 150px"
+              v-model="item.key"
+            ></el-input
+            >&nbsp;&nbsp;
+            <el-input
+              size="small"
+              placeholder="value"
+              style="width: 200px"
+              v-model="item.value"
+            ></el-input
+            >&nbsp;&nbsp;
+            <el-button
+              v-if="Bodys.length > 1"
+              size="small"
+              type="primary"
+              plain
+              icon="el-icon-delete"
+              @click="removeBodyItem(index)"
+            ></el-button>
+          </el-form-item>
+        </el-form>
+        <CodeMirrorEditor
+          :mode="editorMode"
+          :language="editorLanguage"
+          :data="RequestData"
+          @DataChange="RequestDataChangeHandler"
+        ></CodeMirrorEditor>
+      </div>
+      <div class="rightBox">
+        <el-form>
+          <el-form-item label="Headers" label-width="76px"> Response Headers </el-form-item>
+          <el-form-item label=" " label-width="76px" v-for="(item, index) in Headers" :key="index">
+            <el-input
+              size="small"
+              placeholder="key"
+              style="width: 150px"
+              v-model="item.key"
+            ></el-input
+            >&nbsp;&nbsp;
+            <el-input
+              size="small"
+              placeholder="value"
+              style="width: 200px"
+              v-model="item.value"
+            ></el-input
+            >&nbsp;&nbsp;
+            <el-button
+              v-if="Headers.length > 1"
+              size="small"
+              type="primary"
+              plain
+              icon="el-icon-delete"
+              @click="removeHeaderItem(index)"
+            ></el-button>
+          </el-form-item>
+          <!-- body -->
+          <el-form-item label="Body" label-width="76px"> Body </el-form-item>
+          <el-form-item label=" " label-width="76px" v-for="(item, index) in Bodys" :key="index">
+            <el-input
+              size="small"
+              placeholder="key"
+              style="width: 150px"
+              v-model="item.key"
+            ></el-input
+            >&nbsp;&nbsp;
+            <el-input
+              size="small"
+              placeholder="value"
+              style="width: 200px"
+              v-model="item.value"
+            ></el-input
+            >&nbsp;&nbsp;
+            <el-button
+              v-if="Bodys.length > 1"
+              size="small"
+              type="primary"
+              plain
+              icon="el-icon-delete"
+              @click="removeBodyItem(index)"
+            ></el-button>
+          </el-form-item>
+        </el-form>
+        <CodeMirrorEditor
+          :mode="editorMode"
+          :language="editorLanguage"
+          :data="CodeData"
+          @DataChange="dataChangeHandler"
+        ></CodeMirrorEditor>
+      </div>
     </div>
   </div>
 </template>
@@ -102,18 +180,35 @@ div {
   margin: 0;
   padding: 0;
 }
-.mainBox {
+
+.Box {
   width: 90%;
   margin: 0 auto;
   margin-top: 0px;
+  height: 800px;
+  border: 1px dashed #ccc;
+}
+
+.mainBox {
+  width: 100%;
   display: flex;
+  border-top: 1px dashed #ccc;
+}
+.topBox {
+  width: 100%;
+  height: 50px;
+  line-height: 50px;
+  padding-top: 10px;
 }
 
 .leftBox {
   width: 50%;
+  padding: 5px;
+  border-right: 1px dashed #ccc;
 }
 .rightBox {
   width: 50%;
+  padding: 5px;
 }
 
 .mainBox .el-form-item {

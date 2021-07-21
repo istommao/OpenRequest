@@ -25,21 +25,30 @@ export default {
     language: {
       type: String
     },
+    mode: {
+      type: String
+    },
     data: {
       type: String,
       default: ''
+    },
+    indentUnit: {
+      type: Number,
+      default: 4,
     }
   },
   mounted() {
     let theme = 'monokai'
     const EditorConfig = {
-      mode: { name: this.language, json: true },
+      mode: { name: this.mode, json: true },
       indentWithTabs: true,
+      indentUnit: this.indentUnit,
       smartIndent: true,
       lineNumbers: true,
       matchBrackets: true,
       theme: theme,
       autofocus: true,
+      lineWrapping: true,
       extraKeys: { Ctrl: 'autocomplete' }, //自定义快捷键
       hintOptions: {
         tables: {
@@ -65,9 +74,15 @@ export default {
       () => this.data,
       (newVal) => {
         if (newVal) {
-          if (this.language === 'javascript') {
-            const result = jsonbeautify(JSON.parse(this.data), null, 2, 100)
-            editor.getDoc().setValue(result)
+          if (this.mode === 'javascript') {
+            if (this.language === 'json') {
+              // const result = jsonbeautify(JSON.parse(this.data), null, 2, 100)
+              const result = this.data;
+
+              editor.getDoc().setValue(result)
+            } else {
+              editor.getDoc().setValue(this.data)
+            }
           } else {
             editor.getDoc().setValue(this.data)
           }
